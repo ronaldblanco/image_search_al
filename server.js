@@ -46,11 +46,13 @@ app.get('/imagesearch/*', function (req, res) {
         'date': mydate
     };
     
-    function getModule(error,result){
-        console.log(error);
-        console.log({'result':result});
-        if(error === null) res.send({'result':result});
-        else res.send({'error':error});
+    function getModule(error,result,next,body){
+        //console.log(error);
+        //console.log({'result':result});
+        console.log(next);
+        res.send(body);
+        //if(error === null) res.send({'result':result});
+        //else res.send({'error':error});
     }
     
     scrapinggooglesearch(criteria,getModule);//using my module

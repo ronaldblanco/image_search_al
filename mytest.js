@@ -40,8 +40,8 @@ request('https://www.google.com/search?q='+ 'toallchurchwakeup' +'&source=lnms&t
         }
         
         
-        console.log(result.length);
-        console.log(result);
+        console.log(body);
+        //console.log(result);
 });
 
 

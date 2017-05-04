@@ -21,6 +21,9 @@ module.exports = function (search,callback){
             
             if(error) throw error;
             
+            var next = body.toString().split('<a class="fl" href="');
+            next = 'https://www.google.com' + next[next.length - 1].split('"')[0];
+            
             var tbody = body.toString().split('<tbody')[1];
             tbody = tbody.split("</tbody>")[0];
             //var table = tbody.split('<table')[1];
@@ -50,7 +53,7 @@ module.exports = function (search,callback){
         
         //console.log(result.length);
         //console.log(result);
-        callback(error,result);
+        callback(error,result,next,body);
     });
 
     
