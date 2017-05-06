@@ -6,9 +6,17 @@ var mongourl = "mongodb://short:short@ds129281.mlab.com:29281/";//remote
 var dbname = "urlshortener";
 var url = require('url');
 //var request = require('request');
-var scrapinggooglesearch = require('./scrapinggooglesearch.js'); 
+//var scrapinggooglesearch = require('./scrapinggooglesearch.js');
+/*var scrapinggooglesearch1 = require('./scrapinggooglesearch.js');
+var scrapinggooglesearch2 = require('./scrapinggooglesearch.js');
+var scrapinggooglesearch3 = require('./scrapinggooglesearch.js');
+var scrapinggooglesearch4 = require('./scrapinggooglesearch.js');
+var scrapinggooglesearch5 = require('./scrapinggooglesearch.js');
+var scrapinggooglesearch6 = require('./scrapinggooglesearch.js');*/
+var scrapingmanager = require('./scrapingmanager.js');
 var app = express();
-
+//var newResult = [];
+//var finalResult = [];
 
 
 //var newDoc = undefined;
@@ -20,6 +28,8 @@ app.get('/', function(req, res){
 app.get('/imagesearch/*', function (req, res) {
     
     //req info VAR
+    //newResult = [];
+    //finalResult = [];
     var href = url.parse(req.url).href; //all GET
     //imagesearch/lolcats%20funny?offset=10
     //var pahtname = url.parse(req.url).pahtname; //only path
@@ -46,18 +56,56 @@ app.get('/imagesearch/*', function (req, res) {
         'date': mydate
     };
     
-    function getModule(error,result,next,body){
-        //console.log(error);
-        //console.log({'result':result});
-        console.log(next);
-        res.send(body);
-        //if(error === null) res.send({'result':result});
+    /*function getModule(error,result,body){
+        console.log('getModule');
+        console.log(error);
+        if(error === null){
+            
+            if(newResult.length < cant_offset){
+                for(var a = 0; a < (result.length); a++){
+                    newResult.push(result[a]); 
+                }
+                //newResult.push(result); //res.send({'result':allResult});
+                //console.log(newResult.length +' > '+cant_offset);
+                console.log(newResult.length +' > '+cant_offset);
+                if(newResult.length > cant_offset){
+                    res.send({'result':newResult});
+                    //break;
+                } 
+            } else res.send({'result':newResult});
+        } //callback(result);//res.send(body);
         //else res.send({'error':error});
+    }*/
+    
+    function callback(error,result){
+        //console.log(newResult);
+        //console.log(allResult);
+        if(error == null) res.send({'result':result});
+        else res.send({'error':error});
     }
     
-    scrapinggooglesearch(criteria,getModule);//using my module
+    /*for(var a = 1; a >= (cant_offset); a = a + 19){
+        scrapinggooglesearch(criteria,a,cant_offset,getModule);//using my module
+    }*/
     
-  //res.send();
+    /*scrapinggooglesearch(criteria,'1',cant_offset,getModule);//using my module
+    if(cant_offset > 19) scrapinggooglesearch(criteria,'20',cant_offset,getModule);//using my module
+    if(cant_offset > 38) scrapinggooglesearch(criteria,'39',cant_offset,getModule);//using my module
+    if(cant_offset > 57) scrapinggooglesearch(criteria,'58',cant_offset,getModule);//using my module
+    if(cant_offset > 76) scrapinggooglesearch(criteria,'77',cant_offset,getModule);//using my module
+    if(cant_offset > 95) scrapinggooglesearch(criteria,'95',cant_offset,getModule);//using my module
+    if(cant_offset > 114) scrapinggooglesearch(criteria,'114',cant_offset,getModule);//using my module
+    if(cant_offset > 133) scrapinggooglesearch(criteria,'133',cant_offset,getModule);//using my module
+    if(cant_offset > 152) scrapinggooglesearch(criteria,'152',cant_offset,getModule);//using my module
+    if(cant_offset > 171) scrapinggooglesearch(criteria,'171',cant_offset,getModule);//using my module
+    if(cant_offset > 190) scrapinggooglesearch(criteria,'190',cant_offset,getModule);*///using my module
+    scrapingmanager(criteria,cant_offset,callback);//using my module
+    
+  /*if (cant_offset > 20){
+      scrapinggooglesearch(criteria,'19',cant_offset,getModule);//using my module
+      res.send({'result':newResult});
+  } */
+  //res.send({'result':newResult});
 });
 
 app.get('/checkurl/*', function (req, res) {

@@ -1,10 +1,18 @@
 //Module that scrap google search of photos
+//20 at time
 
-module.exports = function (search,callback){
+module.exports = function (search,start,end,callback){
     
     var request = require('request');
     var unhtml = require('unhtml');
     var result = [];
+    var temp =[];
+    //var gBody = undefined;
+    //var gError = null;
+    var urlsearch = '';
+    
+    /*if(urlfull === null) */urlsearch = 'https://www.google.com/search?q='+ search +'&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiyocuqvNTTAhWGNSYKHUrjDiQQ_AUIBigB&biw=2910&bih=966&start='+ start +'&sa=N';
+    //else urlsearch = urlfull;
 
     function cleanCite(cite){
         var result = [];
@@ -13,16 +21,25 @@ module.exports = function (search,callback){
             result.push(unhtml(cite[a].toString().replace('"','').replace('</cite>','').replace('&times;','x').replace('&nbsp;-&nbsp;',' - ').replace('&#8211;','-')));
             //result.push(unhtml(cite[a]));
         }
+        /*result.push({'website':refine(cite[0])});
+        result.push({'description':refine(cite[1])});
+        result.push({'propertis':refine(cite[2])});*/
         return result;
     }
+    
+    /*function refine(data){
+        return unhtml(data.toString().replace('"','').replace('</cite>','').replace('&times;','x').replace('&nbsp;-&nbsp;',' - ').replace('&#8211;','-'));
+    }*/
 
-    request('https://www.google.com/search?q='+ search +'&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiyocuqvNTTAhWGNSYKHUrjDiQQ_AUIBigB&biw=1910&bih=366', function (error, response, body) {
+    request(urlsearch, function (error, response, body) {
             //console.log(response);
             
             if(error) throw error;
             
-            var next = body.toString().split('<a class="fl" href="');
-            next = 'https://www.google.com' + next[next.length - 1].split('"')[0];
+            //gBody = body;
+            /*var next = body.toString().split('<a class="fl" href="');
+            //next = 'https://www.google.com' + next[next.length - 1].split('"')[0];
+            next = 'https://www.google.com' + next[1].split('"')[0];*/
             
             var tbody = body.toString().split('<tbody')[1];
             tbody = tbody.split("</tbody>")[0];
@@ -46,15 +63,25 @@ module.exports = function (search,callback){
                     var search = aHref.split('alt="')[1].replace('>','').replace('"',''); //ready
                     //var title = td2[1].split('</cite><br>');
                 
-                    result.push({'img': img, 'search': unhtml(search), 'citeT': cleanCite(citeT)});
+                    temp.push({'img': img, 'search': unhtml(search), 'website': cleanCite(citeT)[0], 'desc':cleanCite(citeT)[1], 'info':cleanCite(citeT)[2]});
                 
                 }
             }
+            
+        //gBody = body;
+        //gError = error;
+        console.log('scrapinggooglesearch');
+        //console.log(end - parseInt(start));
+        for(var c = 0; c < (temp.length); c++){
+            result.push(temp[c]);
+        }   
         
+        //newResult.push(result);
+            
         //console.log(result.length);
         //console.log(result);
-        callback(error,result,next,body);
+        callback(error,result,body);
     });
 
-    
+    //callback(gError,result,gBody);
 };
