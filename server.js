@@ -28,7 +28,7 @@ app.get('/', function(req, res){
 app.get('/imagesearch/*', function (req, res) {
     
     //req info VAR
-    //newResult = [];
+    var send = false;
     //finalResult = [];
     var href = url.parse(req.url).href; //all GET
     //imagesearch/lolcats%20funny?offset=10
@@ -80,8 +80,12 @@ app.get('/imagesearch/*', function (req, res) {
     function callback(error,result){
         //console.log(newResult);
         //console.log(allResult);
-        if(error == null) res.send({'result':result});
-        else res.send({'error':error});
+        if(error == null && send == false){
+            res.send({'result':result});
+            console.log('result.length->'+result.length);
+            send = true;
+        } 
+        //else res.send({'error':error});
     }
     
     /*for(var a = 1; a >= (cant_offset); a = a + 19){
