@@ -27,10 +27,6 @@ module.exports = function (search,start,end,callback){
         return result;
     }
     
-    /*function refine(data){
-        return unhtml(data.toString().replace('"','').replace('</cite>','').replace('&times;','x').replace('&nbsp;-&nbsp;',' - ').replace('&#8211;','-'));
-    }*/
-
     request(urlsearch, function (error, response, body) {
             //console.log(response);
             
@@ -68,9 +64,7 @@ module.exports = function (search,start,end,callback){
                 }
             }
             
-        //gBody = body;
-        //gError = error;
-        console.log('scrapinggooglesearch');
+        //console.log('scrapinggooglesearch');
         //console.log(end - parseInt(start));
         for(var c = 0; c < (temp.length); c++){
             result.push(temp[c]);
@@ -83,5 +77,5 @@ module.exports = function (search,start,end,callback){
         callback(error,result,body);
     });
 
-    //callback(gError,result,gBody);
+    
 };

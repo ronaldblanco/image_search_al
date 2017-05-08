@@ -31,3 +31,6 @@ Example output:
     {"term":"lolcats funny","when":"2017-05-03T09:52:08.174Z"},
     {"term":"lolcats funny","when":"2017-05-03T08:04:22.358Z"},
     ....]
+    
+If page does not finish loading is becouse there is not the amount of images you are askin for, try less amount in offset.
+
