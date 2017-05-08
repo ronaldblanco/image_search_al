@@ -66,9 +66,10 @@ module.exports = function (search,start,end,callback){
             
         //console.log('scrapinggooglesearch');
         //console.log(end - parseInt(start));
-        for(var c = 0; c < (temp.length); c++){
+        /*for(var c = 0; c < (temp.length); c++){
             result.push(temp[c]);
-        }   
+        } */
+        result = temp;
         
         //newResult.push(result);
             

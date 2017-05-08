@@ -8,29 +8,34 @@ https://www.freecodecamp.com/ronaldblanco<br>
 
 Image Search Abstraction Layer
 
+Using Google Search Images:
 User Story: I can get the image URLs, alt text and page urls for a set of images relating to a given search string.
 User Story: I can paginate through the responses by adding a ?offset=2 parameter to the URL.
 User Story: I can get a list of the most recently submitted search strings.
 
+If page does not finish loading is becouse there is not the amount of images you are asking for, in that case try less amount in offset.
+
 Example usage:
 
-    https://.../api/imagesearch/lolcats%20funny?offset=10
-    https://.../api/latest/imagesearch/
+    https://.../imagesearch/lolcats%20funny?offset=10
+    https://.../latest/imagesearch/
     
 Example output:
     
-    [{"url":"https://s-media-cache-ak0.pinimg.com/236x/7b/3e/88/7b3e88f0f685954ac5ea9b262b81afa5.jpg","snippet":"ha! I sleep for like 40 hours on weekends, especially Sunday! Me ...","thumbnail":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQZ4VMAxUX5i9ybT3-_W3i_SiXZKCSU2XnhHpxRC0A_mGPtOvrpjkqhzQ","context":"https://www.pinterest.com/pin/524176844101016092/"},
-    {"url":"https://img.scoop.it/f-tKCNgJWPoGzbrK5LCQhTl72eJkfbmt4t8yenImKBVvK0kTmF0xjctABnaLJIm9","snippet":"Lolcats: Ohai hooman - Lolcats - Funny Pictures...","thumbnail":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnKqxoHtHn8b0dYvy4VKUKWZ3obuPs3O2agntOwGzNscV-mJghnsMEQgE","context":"http://www.scoop.it/t/pictures/p/1665736655/2012/04/25/lolcats-ohai-hooman-lolcats-funny-pictures-of-cats-i-can-has"},
-    ......]
+    {"result":
+        [{"img":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRrTlU1tCIvPCZiLka4iE42P9HDWFquFY3MWqi2NE0jn1TTLAFybdpBylKX","search":"Image result for lolcats funny","website":"lolcats.com","desc":"LOLCats - Funny cat pictures","info":"490 x 379 - 45k - jpg"},
+        {"img":"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRwC1Qu-zMGPmny2gkfRQHiZOy8-Jp46SUBmmuwdfq0yD6J_lBSzt-xBQ","search":"Image result for lolcats funny","website":"lolcats.com","desc":"LOLCats - Page 6 - Funny cat pictures","info":"450 x 411 - 42k - jpg"},
+        {"img":"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTJ5GIiMhfQUp8My-DX0dHwPLrw5VjFhpIhn9iQcD03VKuDYVNCDt3Vu8w","search":"Image result for lolcats funny","website":"funnyjunk.com","desc":"Lolcats funny","info":"500 x 375 - 41k - jpg"},
+        {"img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpc77esnVyfsIaFN3oueSdtD-2RcaBe5y_SP8XR0k_kDCNalerFXw32TM","search":"Image result for lolcats funny","website":"yadbw.com","desc":"Lolcats Funny Cat Pictures | yadbw.com","info":"500 x 392 - 62k - jpg"},
+        {"img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLLyOSNmTA-97DH2gQiNgjtkCowZXF7qRZpqdPceVyt6bzfCMPLJ3g-h4p","search":"Image result for lolcats funny","website":"pinterest.com","desc":"Funniest Lolcats | LOLCAts funny cats | Animal Memes | Pinterest ...","info":"500 x 325 - 44k - jpg"}]
+    }
     
-    [{"term":"dogo","when":"2017-05-03T12:30:17.128Z"},
-    {"term":"lolcats funny","when":"2017-05-03T12:27:53.653Z"},
-    {"term":"lolcats funny","when":"2017-05-03T12:06:33.727Z"},
-    {"term":"lolcats funny","when":"2017-05-03T12:04:10.712Z"},
-    {"term":"lolcats funny","when":"2017-05-03T12:03:38.291Z"},
-    {"term":"lolcats funny","when":"2017-05-03T09:52:08.174Z"},
-    {"term":"lolcats funny","when":"2017-05-03T08:04:22.358Z"},
-    ....]
+    [{"search":"lolcats%20funny","date":"2017-05-08T12:43:04.176Z"},
+    {"search":"lolcats%20funny","date":"2017-05-08T00:47:44.582Z"},
+    {"search":"lolcats%20funny","date":"2017-05-08T00:34:03.918Z"},
+    {"search":"lolcats%20funny","date":"2017-05-08T00:28:21.952Z"},
+    {"search":"lolcats%20funny","date":"2017-05-08T00:27:07.424Z"},
+    {"search":"lolcats%20funny","date":"2017-05-07T23:53:40.165Z"}]
     
-If page does not finish loading is becouse there is not the amount of images you are askin for, try less amount in offset.
+
 

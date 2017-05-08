@@ -26,6 +26,46 @@ module.exports = function (ope,input,output,callback){
         //} 
         
         });
+    } else if(ope == "find"){
+        mongo.connect(mongourl+dbname,function(err,db){
+        if(err)throw err;
+        var collection = db.collection(cname);
+        
+        collection.find(input/*{
+            org_url: final
+        }*/).toArray(function(err,doc){
+            //console.log('err->'+err);
+            //console.log('doc->'+doc);
+            
+                callback(err,doc);
+            
+        });
+
+       db.close; 
+    })
+    }else if(ope == "agg"){
+        mongo.connect(mongourl+dbname,function(err,db){
+        if(err)throw err;
+        var collection = db.collection(cname);
+        
+        collection.aggregate(input/*[
+    {$sort: { createdOn: -1 }},
+    {$group: { _id: "$itemId", 
+        createdOn: {$first: "$createdOn"},
+        field1: {$first: "$field1" },
+        field2: {$first: "$field2" }
+    }},
+    {$match: { field1: "foo" }}
+]*/).toArray(function(err,doc){
+            //console.log('err->'+err);
+            //console.log('doc->'+doc);
+            
+                callback(err,doc);
+            
+        });
+
+       db.close; 
+    })
     }
     
 }

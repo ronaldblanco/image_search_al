@@ -19,7 +19,8 @@ app.get('/imagesearch/*', function (req, res) {
     //var pahtname = url.parse(req.url).pahtname; //only path
     var criteria = url.parse(req.url).href.toString().split('?')[0].split('/')[2]; //only path
     var query = url.parse(req.url).query; //only query ?
-    var cant_offset = parseInt(query.toString().split('=')[1]);
+    var cant_offset = 10;//parseInt(query.toString().split('=')[1]);
+    if(query) cant_offset = parseInt(query.toString().split('=')[1]);
     //var method = req.method;
     //Loging Activity
     var mydate = new Date();
@@ -62,69 +63,48 @@ app.get('/imagesearch/*', function (req, res) {
    
 });
 
-app.get('/checkurl/*', function (req, res) {
+app.get('/latest/imagesearch/*', function (req, res) {
     
     var href = url.parse(req.url).href; //all GET
-    var input = href.toString().split('/');
-    /*console.log('input->'+input);
-    console.log('input 2->'+input[2]);
-    console.log('input last->'+input[input.length - 1]);*/
-    var final = '';
-    var check = input[2]+'//'+input[input.length - 1];
-    //var final = '';
-    check = check.match("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-    //console.log('2->'+check);
-    if(check != null)final = check[0];
-    else final = check;
+    var input = href.toString().split('/')[3];
+    console.log('input->'+input);
     
-    if(check != null){//if the url is valid
-    mongo.connect(mongourl+dbname,function(err,db){
-        if(err)throw err;
-        var collection = db.collection('shortener');
-        
-        collection.find({
-            org_url: final
-        }).toArray(function(err,doc){
-            console.log('err->'+err);
-            console.log('doc->'+doc);
-            //if(doc != []){
-                //console.log('Exist->'+doc[0].org_url);
-                //add = false;
-                //res.send({'shortened_URL':req.protocol + '://' + req.get('host') + '/' + doc[0].new_id});
-                res.send({'docs':doc});
-            //}else res.send({'shortened_URL':'NO DOC.'});
-            //res.redirect(doc[0].org_url);//OK READY
-        });
-
-       db.close; 
-    })
-        
-        
+      var myJson = {
+          search : input
+      };
+      
+      /*var myAgg = [
+        {$sort: { date: -1 }},
+        {$group: { _id: "$itemId", 
+            date: {$first: "$date"},
+            search: {$first: "$search" }//,
+            //date: {$second: "$date"},
+            //search: {$second: "$search" }//,
+            //field2: {$first: "$field2" }
+        }},
+        {$match: { search: input }}
+    ];*/
+      
+      function callbackmongo(err,data){
+        if(err == null){
+           var output = [];
+           if(data.length <= 10){
+               for(var a = (data.length - 1); a > -1; a--){
+                    output.push({search: data[a].search, date: data[a].date.toISOString()});
+                }
+           }else{
+               for(var a = (data.length - 1); a > data.length - 11; a--){
+                    output.push({search: data[a].search, date: data[a].date.toISOString()});
+                }
+           }
+           
+           res.send(output);
+        }
+        else console.log(err);
     }
     
-    
-});
-
-app.get('/checkshort/*', function (req, res) {
-    
-    var href = url.parse(req.url).href; //all GET
-    console.log(href.toString());
-    var id = href.toString().split('/')[2];
-    
-    mongo.connect(mongourl+dbname,function(err,db){
-        if(err)throw err;
-        var collection = db.collection('shortener');
-        
-        collection.find({
-            new_id: id
-        }).toArray(function(err,doc){
-            if(err)throw err;
-            console.log(doc);
-            res.send({'doc':doc});
-            //res.redirect(doc[0].org_url);//OK READY
-        })
-        db.close();
-    })
+    //mongoccontrol("agg",myAgg,null,callbackmongo);
+    mongoccontrol("find",myJson,null,callbackmongo);
     
 });
 
@@ -134,9 +114,11 @@ app.get('*', function (req, res) {
     console.log(href.toString());
     var id = href.toString().split('/')[1];
     
+    res.send(id+" it is Not a Valid Page!");
+    
     //check if the short exist
     //fCheckurl(req.protocol + '://' + req.get('host') + '/checkurl/' + final);
-    request(req.protocol + '://' + req.get('host') + '/checkshort/' + id, function (error, response, body) {
+    /*request(req.protocol + '://' + req.get('host') + '/checkshort/' + id, function (error, response, body) {
         //console.log('error:', error); // Print the error if one occurred 
         //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
         console.log('body:', JSON.parse(body).doc.length); // Print the HTML for the Google homepage. 
@@ -149,7 +131,7 @@ app.get('*', function (req, res) {
             else res.send('Error Accesing Database!');
             //console.log('newDoc in function->'+newDoc);
         }
-    });
+    });*/
     
     /*mongo.connect(mongourl+dbname,function(err,db){
         if(err)throw err;
