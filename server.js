@@ -70,7 +70,7 @@ app.get('/latest/imagesearch/*', function (req, res) {
     console.log('input->'+input);
     
       var myJson = {
-          search : input
+          //search : input
       };
       
       /*var myAgg = [
