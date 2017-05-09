@@ -2,7 +2,16 @@ module.exports = function (ope,input,output,callback){
     
     var mongo = require('mongodb').MongoClient;
     //var mongourl = "mongodb://localhost:27017/";//local
-    var mongourl = "mongodb://short:short@ds129281.mlab.com:29281/";//remote
+    
+    //Protecting database/////////////////////////////////////
+    var mongo_config = require('./mongodb_config.js');
+    var mongourl = '';//remote
+    mongo_config(config_mongo);
+    function config_mongo(mongourlp){
+        mongourl = mongourlp;
+    }
+    //end database protection///////////////////////////////
+    
     var dbname = "urlshortener";
     var cname = "imagesearchal";
     
