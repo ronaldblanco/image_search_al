@@ -4,7 +4,7 @@ module.exports = function (ope,input,output,callback){
     //var mongourl = "mongodb://localhost:27017/";//local
     
     //Protecting database/////////////////////////////////////
-    var mongo_config = require('./mongodb_config.js');
+    var mongo_config = require('./ignore/mongodb_config.js');
     var mongourl = '';//remote
     mongo_config(config_mongo);
     function config_mongo(mongourlp){
