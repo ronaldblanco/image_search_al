@@ -1,5 +1,5 @@
 module.exports = function (callback){
 
-callback("mongodb://<dbuser>:<dbpassword>@host:port/");
+callback(process.env.MONGO_URI);
 
 }
