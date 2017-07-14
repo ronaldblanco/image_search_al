@@ -1,9 +1,6 @@
 {
   "name": "image_search_al",
   "version": "1.0.0",
-  "engines": {
-    "node": "4.8.4"
-  },
   "description": "I can get the image URLs, alt text and page urls for a set of images relating to a given search string.",
   "main": "server.js",
   "scripts": {
